@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دريم جاردن | من الأرض مباشرة إلى حديقتك</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Changa:wght@500;600;700;800&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --soil-dark:#241a10;
+    --soil-mid:#3a2a19;
+    --clay:#a9552f;
+    --clay-deep:#8a4324;
+    --gold:#c89b3c;
+    --gold-bright:#e0b455;
+    --moss:#4f5d3a;
+    --moss-deep:#3a4529;
+    --sand:#dcd0b4;
+    --sand-light:#f1ebdd;
+    --ink:#241c14;
+    --cream:#f2ead8;
+    --line: rgba(36,26,16,0.12);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Tajawal', sans-serif;
+    background: var(--sand-light);
+    color: var(--ink);
+    line-height:1.6;
+  }
+  h1,h2,h3,.display{
+    font-family:'Changa', sans-serif;
+    font-weight:700;
+    color: var(--soil-dark);
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+  :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ===== Layout shell ===== */
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+
+  /* ===== Header ===== */
+  header{
+    position:sticky; top:0; z-index:40;
+    background: rgba(242,234,216,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1180px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Changa'; font-weight:800; font-size:22px; color:var(--soil-dark);}
+  .brand-mark{width:34px; height:34px; border-radius:50%; background:conic-gradient(var(--moss) 0 25%, var(--gold) 25% 55%, var(--clay) 55% 80%, var(--soil-mid) 80% 100%); flex-shrink:0;}
+  nav.links{display:flex; gap:28px; font-weight:500;}
+  nav.links a{position:relative; padding:6px 2px; font-size:15px;}
+  nav.links a::after{content:"";position:absolute;right:0;bottom:0;height:2px;width:0;background:var(--clay);transition:width .25s;}
+  nav.links a:hover::after{width:100%;}
+  .cart-btn{
+    display:flex; align-items:center; gap:8px;
+    background:var(--soil-dark); color:var(--cream);
+    padding:10px 18px; border-radius:var(--radius); font-weight:700; font-size:14px;
+  }
+  .cart-count{background:var(--clay); color:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:12px;}
+  .menu-toggle{display:none; background:none; font-size:26px; color:var(--soil-dark);}
+
+  /* ===== Hero with strata signature ===== */
+  .hero{position:relative; overflow:hidden; background:var(--soil-dark);}
+  .hero-inner{max-width:1180px; margin:0 auto; padding:90px 24px 40px; position:relative; z-index:2;}
+  .eyebrow{color:var(--gold-bright); font-weight:700; letter-spacing:.08em; font-size:14px; margin-bottom:18px;}
+  .hero h1{color:var(--cream); font-size:clamp(34px,5.5vw,58px); line-height:1.15; max-width:780px;}
+  .hero h1 span{color:var(--gold-bright);}
+  .hero p{color:var(--sand); max-width:560px; margin-top:20px; font-size:17px;}
+  .hero-cta{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .btn{padding:14px 28px; border-radius:var(--radius); font-weight:700; font-size:15px; display:inline-block; transition:transform .15s, opacity .15s;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--gold); color:var(--soil-dark);}
+  .btn-ghost{border:1.5px solid var(--sand); color:var(--cream);}
+
+  /* strata bands: literal cross-section of earth, used as the page's signature */
+  .strata{position:relative; height:120px; margin-top:60px;}
+  .strata-band{position:absolute; right:0; left:0;}
+  .b1{top:0; height:26%; background: repeating-linear-gradient(100deg, #566246 0 10px, #4f5d3a 10px 20px);}
+  .b2{top:26%; height:24%; background: radial-gradient(circle, #b8a06a 2px, #c9b47e 2px) 0 0/14px 14px, #c9b47e;}
+  .b3{top:50%; height:26%; background: radial-gradient(circle, #7a6248 3px, #8a6f52 3px) 0 0/20px 20px, #8a6f52;}
+  .b4{top:76%; height:24%; background:#3a2a19;}
+  .strata-label{position:absolute; left:24px; font-size:11px; color:rgba(242,234,216,.85); font-weight:700; letter-spacing:.04em;}
+  .l1{top:2%;} .l2{top:28%;} .l3{top:52%;} .l4{top:78%;}
+
+  /* ===== Value props ===== */
+  .values{padding:64px 0; background:var(--sand-light);}
+  .values-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:36px;}
+  .value-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:28px; border-top:4px solid var(--clay);}
+  .value-card:nth-child(2){border-top-color:var(--moss);}
+  .value-card:nth-child(3){border-top-color:var(--gold);}
+  .value-card h3{font-size:19px; margin-bottom:10px;}
+  .value-card p{font-size:14.5px; color:#463a2c;}
+  .section-head{max-width:640px;}
+  .section-head .kicker{color:var(--clay); font-weight:800; font-size:13px; letter-spacing:.08em;}
+  .section-head h2{font-size:clamp(26px,3.5vw,36px); margin-top:8px;}
+
+  /* ===== Categories ===== */
+  .categories{padding:60px 0; background:var(--sand);}
+  .cat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:36px;}
+  .cat-card{background:var(--cream); border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); transition:box-shadow .2s;}
+  .cat-card:hover{box-shadow:0 10px 26px rgba(36,26,16,.12);}
+  .cat-swatch{height:100px;}
+  .sw1{background:repeating-linear-gradient(45deg, #8a6f52 0 8px, #7a6248 8px 16px);}
+  .sw2{background:repeating-linear-gradient(45deg, #566246 0 8px, #4f5d3a 8px 16px);}
+  .sw3{background:repeating-linear-gradient(45deg, #c89b3c 0 8px, #b8892e 8px 16px);}
+  .cat-body{padding:22px;}
+  .cat-body h3{font-size:18px; margin-bottom:8px;}
+  .cat-body p{font-size:14px; color:#463a2c; margin-bottom:14px;}
+  .cat-link{font-weight:700; font-size:14px; color:var(--clay-deep);}
+
+  /* ===== Products ===== */
+  .products{padding:64px 0;}
+  .prod-section{margin-top:52px;}
+  .prod-section h3{font-size:22px; border-bottom:2px solid var(--soil-dark); display:inline-block; padding-bottom:6px; margin-bottom:24px;}
+  .prod-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .prod-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; gap:10px;}
+  .prod-thumb{height:120px; border-radius:var(--radius); background:linear-gradient(135deg,var(--sand),var(--cream));}
+  .prod-card h4{font-size:16px;}
+  .prod-meta{font-size:13px; color:#6b5c47;}
+  .prod-row{display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:8px;}
+  .price{font-weight:800; color:var(--clay-deep); font-size:16px;}
+  .add-btn{background:var(--moss); color:#fff; padding:9px 16px; border-radius:var(--radius); font-size:13.5px; font-weight:700;}
+  .add-btn:hover{background:var(--moss-deep);}
+
+  /* ===== Divider strata (before footer) ===== */
+  .divider-strata{height:60px; display:flex; overflow:hidden;}
+  .divider-strata div{flex:1;}
+  .d1{background:#3a2a19;} .d2{background:#8a6f52;} .d3{background:#c9b47e;} .d4{background:#4f5d3a;}
+
+  /* ===== Footer ===== */
+  footer{background:var(--soil-dark); color:var(--sand); padding:50px 0 26px;}
+  .foot-grid{display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px;}
+  footer h4{color:var(--cream); font-size:15px; margin-bottom:14px;}
+  footer p, footer a{color:var(--sand); font-size:14px;}
+  footer .brand{color:var(--cream);}
+  .foot-bottom{border-top:1px solid rgba(242,234,216,.15); margin-top:36px; padding-top:20px; font-size:12.5px; color:rgba(242,234,216,.6); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  /* ===== Cart drawer ===== */
+  .overlay{position:fixed; inset:0; background:rgba(36,26,16,.5); opacity:0; pointer-events:none; transition:opacity .25s; z-index:50;}
+  .overlay.open{opacity:1; pointer-events:auto;}
+  .drawer{
+    position:fixed; top:0; bottom:0; left:0; width:min(420px,92vw);
+    background:var(--sand-light); z-index:60; transform:translateX(-100%);
+    transition:transform .3s ease; display:flex; flex-direction:column;
+    box-shadow: 8px 0 24px rgba(0,0,0,.2);
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{display:flex; align-items:center; justify-content:space-between; padding:20px; border-bottom:1px solid var(--line);}
+  .drawer-head h3{font-size:19px;}
+  .close-btn{background:none; font-size:22px; color:var(--soil-dark);}
+  .drawer-body{padding:16px 20px; overflow-y:auto; flex:1;}
+  .cart-item{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--line);}
+  .cart-item-name{font-size:14px; font-weight:700;}
+  .cart-item-meta{font-size:12px; color:#6b5c47;}
+  .qty-controls{display:flex; align-items:center; gap:8px;}
+  .qty-controls button{width:26px; height:26px; background:var(--sand); border-radius:50%; font-size:14px;}
+  .empty-cart{text-align:center; color:#6b5c47; padding:40px 10px; font-size:14px;}
+  .drawer-footer{padding:18px 20px; border-top:1px solid var(--line);}
+  .total-row{display:flex; justify-content:space-between; font-weight:800; font-size:17px; margin-bottom:14px;}
+  .checkout-btn{width:100%; background:var(--clay); color:#fff; padding:14px; border-radius:var(--radius); font-weight:800; font-size:15px;}
+  .checkout-btn:hover{background:var(--clay-deep);}
+
+  /* ===== Checkout form (inline panel) ===== */
+  .checkout-panel{display:none; padding:16px 20px 4px;}
+  .checkout-panel.open{display:block;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:13px; font-weight:700; margin-bottom:6px;}
+  .field input, .field textarea, .field select{
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:var(--radius);
+    font-family:inherit; font-size:14px; background:#fff;
+  }
+  .pay-options{display:flex; gap:10px; margin-bottom:14px;}
+  .pay-option{flex:1; border:1.5px solid var(--line); border-radius:var(--radius); padding:10px; text-align:center; font-size:13px; font-weight:700; cursor:pointer;}
+  .pay-option.selected{border-color:var(--clay); background:#fff5ef; color:var(--clay-deep);}
+  .success-msg{display:none; text-align:center; padding:30px 10px;}
+  .success-msg.open{display:block;}
+  .success-icon{width:56px; height:56px; border-radius:50%; background:var(--moss); color:#fff; display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 16px;}
+
+  /* ===== Mobile ===== */
+  @media (max-width: 860px){
+    nav.links{display:none;}
+    .menu-toggle{display:block;}
+    .values-grid, .cat-grid, .prod-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr; gap:24px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand"><span class="brand-mark"></span> دريم جاردن</div>
+    <nav class="links">
+      <a href="#hero">الرئيسية</a>
+      <a href="#categories">المنتجات</a>
+      <a href="#values">لماذا نحن</a>
+      <a href="#contact">تواصل معنا</a>
+    </nav>
+    <button class="cart-btn" onclick="openDrawer()">
+      🛒 السلة <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">مباشرة من المصدر — بدون وسطاء</div>
+    <h1>من قلب الأرض... إلى <span>حديقتك</span> مباشرة</h1>
+    <p>دريم جاردن توصلك بمواد الحدائق والأراضي — تراب، رمل، حصى، نباتات وأدوات — مباشرة من المصدر، بأسعار أوضح وجودة أضمن، ودفع إلكتروني آمن على الموقع.</p>
+    <div class="hero-cta">
+      <a href="#categories" class="btn btn-primary">تصفح المنتجات</a>
+      <a href="#values" class="btn btn-ghost">ليش دريم جاردن؟</a>
+    </div>
+  </div>
+  <div class="strata">
+    <div class="strata-band b1"></div>
+    <div class="strata-band b2"></div>
+    <div class="strata-band b3"></div>
+    <div class="strata-band b4"></div>
+    <div class="strata-label l1">طبقة الزراعة — نباتات وبذور</div>
+    <div class="strata-label l2">الرمل — مواد بناء وتهيئة</div>
+    <div class="strata-label l3">الحصى — تشطيب وتزيين</div>
+    <div class="strata-label l4">الأساس — من المصدر مباشرة</div>
+  </div>
+</section>
+
+<section class="values" id="values">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">لماذا دريم جاردن</div>
+      <h2>نفس الأرض، بدون وسيط</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <h3>مباشرة من المصدر</h3>
+        <p>كل مادة بتوصلك من مصدرها الأساسي — أرض، مشتل، أو ورشة — من غير أي وسيط يرفع السعر أو يطول وقت التوصيل.</p>
+      </div>
+      <div class="value-card">
+        <h3>جودة مضمونة</h3>
+        <p>نختار الموردين بعناية، وكل مادة بتنفحص قبل ما توصلك، سواء كانت تراب زراعي، شتلة، أو أداة حديقة.</p>
+      </div>
+      <div class="value-card">
+        <h3>دفع إلكتروني آمن</h3>
+        <p>اطلب وادفع مباشرة من الموقع، أو اختر الدفع عند الاستلام — الخيار إلك.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="categories" id="categories">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">الفئات</div>
+      <h2>كل شي تحتاجه لأرضك وحديقتك</h2>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-swatch sw1"></div>
+        <div class="cat-body">
+          <h3>تراب، رمل وحصى</h3>
+          <p>مواد بناء وتهيئة الأراضي بجودة عالية، بالكيلو أو بالكيس.</p>
+          <a href="#soil" class="cat-link">تصفح المواد ←</a>
+        </div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-swatch sw2"></div>
+        <div class="cat-body">
+          <h3>نباتات وأشجار وبذور</h3>
+          <p>شتلات وأشجار ونباتات زينة وبذور خضار موسمية.</p>
+          <a href="#plants" class="cat-link">تصفح النباتات ←</a>
+        </div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-swatch sw3"></div>
+        <div class="cat-body">
+          <h3>أدوات ومعدات الحدائق</h3>
+          <p>كل أداة بدك ياها للعناية بحديقتك وأرضك.</p>
+          <a href="#tools" class="cat-link">تصفح الأدوات ←</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="wrap">
+
+    <div class="prod-section" id="soil">
+      <h3>تراب، رمل وحصى</h3>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>تراب زراعي منخول</h4>
+          <div class="prod-meta">كيس 25 كغ</div>
+          <div class="prod-row"><span class="price">5.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('تراب زراعي منخول',5.00)">أضف للسلة</button></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>رمل ناعم للبناء والزراعة</h4>
+          <div class="prod-meta">كيس 25 كغ</div>
+          <div class="prod-row"><span class="price">4.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('رمل ناعم',4.00)">أضف للسلة</button></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>حصى مزخرف للحدائق</h4>
+          <div class="prod-meta">كيس 20 كغ</div>
+          <div class="prod-row"><span class="price">6.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('حصى مزخرف',6.00)">أضف للسلة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-section" id="plants">
+      <h3>نباتات وأشجار وبذور</h3>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>شتلة زيتون</h4>
+          <div class="prod-meta">شتلة واحدة</div>
+          <div class="prod-row"><span class="price">15.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('شتلة زيتون',15.00)">أضف للسلة</button></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>نبات زينة داخلي</h4>
+          <div class="prod-meta">أصيص واحد</div>
+          <div class="prod-row"><span class="price">8.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('نبات زينة داخلي',8.00)">أضف للسلة</button></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>بذور خضار موسمية متنوعة</h4>
+          <div class="prod-meta">عبوة واحدة</div>
+          <div class="prod-row"><span class="price">3.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('بذور خضار موسمية',3.00)">أضف للسلة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-section" id="tools">
+      <h3>أدوات ومعدات الحدائق</h3>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>طقم أدوات تقليم يدوي</h4>
+          <div class="prod-meta">طقم كامل</div>
+          <div class="prod-row"><span class="price">12.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('طقم تقليم يدوي',12.00)">أضف للسلة</button></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>خرطوم ري 20 متر</h4>
+          <div class="prod-meta">قطعة واحدة</div>
+          <div class="prod-row"><span class="price">18.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('خرطوم ري 20م',18.00)">أضف للسلة</button></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-thumb"></div>
+          <h4>قفازات حديقة مقاومة للشوك</h4>
+          <div class="prod-meta">زوج واحد</div>
+          <div class="prod-row"><span class="price">5.00 ₪</span>
+            <button class="add-btn" onclick="addToCart('قفازات حديقة',5.00)">أضف للسلة</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider-strata"><div class="d4"></div><div class="d3"></div><div class="d2"></div><div class="d1"></div></div>
+
+<footer id="contact">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand" style="font-family:'Changa'; font-weight:800; font-size:20px; margin-bottom:12px;">دريم جاردن</div>
+      <p>مواد الحدائق والأراضي، مباشرة من المصدر إلى بابك.</p>
+    </div>
+    <div>
+      <h4>تواصل معنا</h4>
+      <p>واتساب: 07xxxxxxxx</p>
+      <p>البريد: info@dreamgarden.example</p>
+    </div>
+    <div>
+      <h4>روابط</h4>
+      <p><a href="#categories">المنتجات</a></p>
+      <p><a href="#values">لماذا نحن</a></p>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 دريم جاردن. جميع الحقوق محفوظة.</span>
+    <span>تصميم وتطوير بالكامل لدريم جاردن</span>
+  </div>
+</footer>
+
+<!-- Cart Drawer -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>سلة الطلبات</h3>
+    <button class="close-btn" onclick="closeDrawer()">✕</button>
+  </div>
+
+  <div id="cartView">
+    <div class="drawer-body" id="drawerBody">
+      <div class="empty-cart" id="emptyMsg">السلة فاضية حالياً — تصفح المنتجات وأضف اللي بدك.</div>
+    </div>
+    <div class="drawer-footer">
+      <div class="total-row"><span>المجموع</span><span id="totalPrice">0.00 ₪</span></div>
+      <button class="checkout-btn" id="goCheckoutBtn" onclick="showCheckout()" disabled>إتمام الطلب</button>
+    </div>
+  </div>
+
+  <div class="checkout-panel" id="checkoutPanel">
+    <form id="checkoutForm" onsubmit="submitOrder(event)">
+      <div class="field">
+        <label>الاسم الكامل *</label>
+        <input type="text" required id="custName">
+      </div>
+      <div class="field">
+        <label>رقم الهاتف *</label>
+        <input type="tel" required id="custPhone">
+      </div>
+      <div class="field">
+        <label>المدينة والعنوان *</label>
+        <input type="text" required id="custAddress">
+      </div>
+      <div class="field">
+        <label>ملاحظات (اختياري)</label>
+        <textarea rows="2" id="custNotes"></textarea>
+      </div>
+      <div class="field">
+        <label>طريقة الدفع *</label>
+        <div class="pay-options">
+          <div class="pay-option selected" data-val="cod" onclick="selectPay(this)">الدفع عند الاستلام</div>
+          <div class="pay-option" data-val="online" onclick="selectPay(this)">دفع إلكتروني (PayBox)</div>
+        </div>
+      </div>
+      <button type="submit" class="checkout-btn">تأكيد الطلب</button>
+    </form>
+  </div>
+
+  <div class="success-msg" id="successMsg">
+    <div class="success-icon">✓</div>
+    <h3 style="margin-bottom:8px;">تم استلام طلبك!</h3>
+    <p style="color:#6b5c47; font-size:14px; margin-bottom:18px;">رقم الطلب: <strong id="orderNum"></strong><br>رح نتواصل معك قريباً لتأكيد التوصيل.</p>
+    <button class="checkout-btn" onclick="closeDrawer(); resetAll();">إغلاق</button>
+  </div>
+</div>
+
+<script>
+  let cart = [];
+  let payMethod = 'cod';
+
+  function addToCart(name, price){
+    const existing = cart.find(i => i.name === name);
+    if(existing){ existing.qty += 1; } else { cart.push({name, price, qty:1}); }
+    renderCart();
+    openDrawer();
+  }
+  function changeQty(name, delta){
+    const item = cart.find(i => i.name === name);
+    if(!item) return;
+    item.qty += delta;
+    if(item.qty <= 0){ cart = cart.filter(i => i.name !== name); }
+    renderCart();
+  }
+  function renderCart(){
+    const body = document.getElementById('drawerBody');
+    const count = cart.reduce((s,i)=>s+i.qty,0);
+    document.getElementById('cartCount').textContent = count;
+    const total = cart.reduce((s,i)=>s+i.qty*i.price,0);
+    document.getElementById('totalPrice').textContent = total.toFixed(2) + ' ₪';
+    document.getElementById('goCheckoutBtn').disabled = cart.length === 0;
+
+    if(cart.length === 0){
+      body.innerHTML = '<div class="empty-cart" id="emptyMsg">السلة فاضية حالياً — تصفح المنتجات وأضف اللي بدك.</div>';
+      return;
+    }
+    body.innerHTML = cart.map(i => `
+      <div class="cart-item">
+        <div>
+          <div class="cart-item-name">${i.name}</div>
+          <div class="cart-item-meta">${i.price.toFixed(2)} ₪ × ${i.qty}</div>
+        </div>
+        <div class="qty-controls">
+          <button onclick="changeQty('${i.name}', -1)">−</button>
+          <span>${i.qty}</span>
+          <button onclick="changeQty('${i.name}', 1)">+</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openDrawer(){
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }
+  function closeDrawer(){
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+  function showCheckout(){
+    document.getElementById('cartView').style.display = 'none';
+    document.getElementById('checkoutPanel').classList.add('open');
+  }
+  function selectPay(el){
+    document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    payMethod = el.dataset.val;
+  }
+  function submitOrder(e){
+    e.preventDefault();
+    document.getElementById('checkoutPanel').classList.remove('open');
+    document.getElementById('successMsg').classList.add('open');
+    const num = 'DG-' + Math.floor(100000 + Math.random()*900000);
+    document.getElementById('orderNum').textContent = num;
+  }
+  function resetAll(){
+    cart = [];
+    payMethod = 'cod';
+    document.getElementById('checkoutForm').reset();
+    document.getElementById('cartView').style.display = 'block';
+    document.getElementById('successMsg').classList.remove('open');
+    renderCart();
+  }
+</script>
+
+</body>
+</html>
